@@ -114,7 +114,6 @@ const handleSubmit = async () => {
   loading.value = true
 
   try {
-    //Chamada de Login
     const loginRes = await fetch(`${config.public.API_URL}/login/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -131,7 +130,6 @@ const handleSubmit = async () => {
 
     const { access } = await loginRes.json()
 
-    // Buscar dados do usuário
     const meRes = await fetch(`${config.public.API_URL}/me/`, {
       headers: { Authorization: `Bearer ${access}` }
     })
@@ -142,10 +140,8 @@ const handleSubmit = async () => {
 
     const userData = await meRes.json()
 
-    // Armazenar no Pinia
     auth.login(userData, access)
 
-    // Redirecionar
     router.push('/')
 
     emit('login-success', userData)

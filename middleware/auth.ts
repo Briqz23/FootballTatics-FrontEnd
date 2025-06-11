@@ -1,4 +1,4 @@
-/*import { useAuthStore } from '~/stores/auth'
+import { useAuthStore } from '~/stores/auth'
 
 export default defineNuxtRouteMiddleware(() => {
   const auth = useAuthStore()
@@ -7,4 +7,3 @@ export default defineNuxtRouteMiddleware(() => {
     return navigateTo('/auth')
   }
 })
-*/

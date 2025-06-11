@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-screen bg-[#f5f5f5] dark:bg-[#121212]">
     <div class="container mx-auto px-4 py-6">
-      <!-- Header -->
       <div class="bg-white dark:bg-[#1a1919] rounded-xl shadow-sm p-6 mb-6">
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-4">
@@ -28,7 +27,6 @@
         </div>
       </div>
 
-      <!-- Categorias de formações -->
       <div class="bg-white dark:bg-[#1a1919] rounded-xl shadow-sm p-6 mb-6">
         <div class="flex flex-wrap gap-2 mb-4">
           <button
@@ -45,7 +43,6 @@
         </div>
       </div>
 
-      <!-- Formação aparecendo -->
       <div v-if="selectedFormation" class="bg-white dark:bg-[#1a1919] rounded-xl shadow-sm p-6 mb-6">
         <div class="flex flex-col lg:flex-row gap-6">
           <div class="lg:w-1/3">
@@ -81,7 +78,6 @@
         </div>
       </div>
 
-      <!-- Formações nos cards -->
       <div class="bg-white dark:bg-[#1a1919] rounded-xl shadow-sm p-6">
         <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6">
           {{ selectedCategory }} ({{ filteredFormations.length }} formações)
@@ -95,12 +91,10 @@
             class="cursor-pointer group"
           >
             <div 
-              class="border-2 rounded-xl p-4 transition-all duration-200"
-              :class="selectedFormation && selectedFormation.id === formation.id 
+              class="border-2 rounded-xl p-4 transition-all duration-200 flex flex-col items-center" :class="selectedFormation && selectedFormation.id === formation.id 
                 ? 'border-[#16A249] bg-[#16A249] bg-opacity-5' 
                 : 'border-gray-200 dark:border-gray-700 hover:border-[#16A249] hover:shadow-md'"
             >
-              <!-- Nome da formação -->
               <div class="text-center mb-3">
                 <h3 
                   class="font-bold text-lg"
@@ -113,12 +107,9 @@
                 <p class="text-sm text-gray-600 dark:text-gray-300">{{ formation.estilo }}</p>
               </div>
 
-              <!-- Campo da formação -->
               <Campo :formation="{ ...formation, positions: formation.posicoes }" />
 
-              <!-- Status da formação -->
-              <div class="mt-3 flex justify-between text-xs text-gray-600 dark:text-gray-300">
-                <span>{{ getLineupStats(formation.posicoes).defense }} Defensores</span>
+              <div class="mt-3 flex justify-between text-xs text-gray-600 dark:text-gray-300 w-full px-2"> <span>{{ getLineupStats(formation.posicoes).defense }} Defensores</span>
                 <span>{{ getLineupStats(formation.posicoes).midfield }} Meio-Campistas</span>
                 <span>{{ getLineupStats(formation.posicoes).attack }} Atacantes</span>
               </div>
@@ -139,8 +130,10 @@ import { definePageMeta, useRuntimeConfig } from '#imports';
 import { useAuthStore } from '~/stores/auth'
 import { toast } from 'vue-sonner'
 
-
-definePageMeta({ layout: 'default' });
+definePageMeta({
+  layout: 'default',
+  middleware: 'auth'
+});
 
 const router = useRouter();
 const config = useRuntimeConfig();
@@ -157,7 +150,7 @@ const filteredFormations = computed(() => {
 });
 
 const getLineupStats = (positions) => {
-  const total = positions.length - 1;
+  if (!Array.isArray(positions)) return { defense: 0, midfield: 0, attack: 0 };
   const defense = positions.filter(p => p.y <= 40 && p.y > 5).length;
   const midfield = positions.filter(p => p.y > 40 && p.y <= 70).length;
   const attack = positions.filter(p => p.y > 70).length;
@@ -174,7 +167,7 @@ const saveFormation = async () => {
   const auth = useAuthStore();
 
   try {
-    const response = await fetch(`${config.public.API_URL}/salvar-formacao/`, {
+    const response = await fetch(`${config.public.API_URL}/api/salvar-formacao/`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${auth.token}`,
@@ -187,6 +180,7 @@ const saveFormation = async () => {
 
     if (!response.ok) throw new Error('Erro ao salvar formação');
     toast.success('Formação salva com sucesso!')
+    router.push('/perfil');
   } catch (error) {
     console.error(error);
     toast.error('Erro ao salvar formação.')
@@ -195,15 +189,20 @@ const saveFormation = async () => {
   }
 };
 
-
 onMounted(async () => {
   try {
-    const res = await fetch(`${config.public.API_URL}/formacoes/`);
+    const res = await fetch(`${config.public.API_URL}/api/formacoes/`);
+    if (!res.ok) throw new Error('Falha ao buscar dados da API.');
+
     const data = await res.json();
-    console.log('Formações carregadas:', data);
+    
     formations.value = data;
+    
+    console.log('Formações carregadas:', formations.value);
+
   } catch (err) {
     console.error('Erro ao carregar formações:', err);
+    toast.error('Não foi possível carregar as formações do servidor.');
   }
 });
 </script>

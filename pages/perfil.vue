@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-[#121212] via-[#1a1919] to-[#0f0f0f] p-4 md:p-6">
-    <!-- Estado de carregamento -->
     <div v-if="!profileData" class="flex items-center justify-center min-h-screen">
       <div class="text-center">
         <div class="w-16 h-16 border-4 border-[#16A249] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
@@ -33,18 +32,14 @@
         </div>
       </div>
 
-      <!-- Seção principal -->
       <div class="grid grid-cols-1 gap-6 mb-8">
-        <!-- Card de perfil  -->
         <div>
           <div class="bg-gradient-to-br from-[#1a1919] to-[#252525] rounded-2xl shadow-2xl border border-[#16A249]/20 p-8 relative overflow-hidden">
-            <!-- Decoração  -->
             <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#16A249]/10 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
             <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#0f7a36]/10 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
             
             <div class="relative z-10">
               <div class="flex flex-col lg:flex-row gap-8">
-                <!-- Seção do Icone de usuario -->
                 <div class="flex flex-col items-center lg:items-start">
                   <div class="relative group">
                     <div class="w-32 h-32 rounded-full bg-gradient-to-br from-[#16A249] to-[#0f7a36] p-1 shadow-2xl">
@@ -52,7 +47,6 @@
                         <User2 class="w-16 h-16 text-white" />
                       </div>
                     </div>
-                    <!-- efeitos -->
                     <div class="absolute inset-0 rounded-full bg-gradient-to-br from-[#16A249] to-[#0f7a36] opacity-20 blur-xl group-hover:opacity-30 transition-opacity"></div>
                     
                     <div class="absolute -bottom-2 -right-2 bg-green-500 w-8 h-8 rounded-full border-4 border-[#1a1919] flex items-center justify-center">
@@ -60,17 +54,14 @@
                     </div>
                   </div>
                   
-                  <!-- Titulo do usuario -->
                   <div class="mt-4 text-center lg:text-left">
-                    <h2 class="text-2xl font-bold text-white">{{ profileData.name }}</h2>
+                    <h2 class="text-2xl font-bold text-white">{{ profileData.first_name }} {{ profileData.last_name }}</h2>
                     <p class="text-[#16A249] mt-2 font-medium">Técnico Principal</p>   
                   </div>
                 </div>
 
-                <!-- Informações do usuario -->
                 <div class="flex-1 space-y-6">
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Email -->
+                  <div class="grid grid-cols-1 gap-6">
                     <div class="group">
                       <label class="text-sm text-gray-400 block mb-2 font-medium">E-mail</label>
                       <div class="flex items-center gap-3 p-3 bg-[#252525] rounded-xl border border-gray-700 group-hover:border-[#16A249]/50 transition-colors">
@@ -81,25 +72,13 @@
                       </div>
                     </div>
 
-                    <!-- Telefone -->
                     <div class="group">
-                      <label class="text-sm text-gray-400 block mb-2 font-medium">Telefone</label>
-                      <div class="flex items-center gap-3 p-3 bg-[#252525] rounded-xl border border-gray-700 group-hover:border-[#16A249]/50 transition-colors">
-                        <div class="p-2 bg-[#16A249]/10 rounded-lg">
-                          <Phone class="w-5 h-5 text-[#16A249]" />
-                        </div>
-                        <span class="text-white font-medium">{{ profileData.phone }}</span>
-                      </div>
-                    </div>
-
-                    <!-- Time -->
-                    <div class="group md:col-span-2">
                       <label class="text-sm text-gray-400 block mb-2 font-medium">Time Principal</label>
                       <div class="flex items-center gap-3 p-3 bg-[#252525] rounded-xl border border-gray-700 group-hover:border-[#16A249]/50 transition-colors">
                         <div class="p-2 bg-[#16A249]/10 rounded-lg">
                           <Trophy class="w-5 h-5 text-[#16A249]" />
                         </div>
-                        <span class="text-white font-medium">{{ profileData.team }}</span>
+                        <span class="text-white font-medium">{{ profileData.team_name }}</span>
                         <div class="ml-auto flex items-center space-x-2">
                           <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                           <span class="text-green-400 text-sm">Ativo</span>
@@ -114,9 +93,7 @@
         </div>
       </div>
 
-      <!-- Seção da formação -->
       <div class="bg-gradient-to-br from-[#1a1919] to-[#252525] rounded-2xl shadow-2xl border border-[#16A249]/20 p-8 relative overflow-hidden">
-        <!-- decoração -->
         <div class="absolute inset-0 opacity-5">
           <svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <circle cx="20" cy="20" r="2" fill="#16A249"/>
@@ -136,13 +113,12 @@
               <p class="text-gray-400 mt-1">Sua formação principal selecionada</p>
             </div>
             
-            <button class="px-4 py-2 bg-[#16A249] hover:bg-[#0f7a36] text-white font-medium rounded-xl transition-colors flex items-center space-x-2">
+            <button @click="navigateTo('/formacoes')" class="px-4 py-2 bg-[#16A249] hover:bg-[#0f7a36] text-white font-medium rounded-xl transition-colors flex items-center space-x-2">
               <Edit3 class="w-4 h-4" />
               <span>Alterar</span>
             </button>
           </div>
 
-          <!-- Display da formação -->
           <div v-if="loadingFormation" class="flex items-center justify-center py-20">
             <div class="text-center">
               <div class="w-12 h-12 border-4 border-[#16A249] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
@@ -151,7 +127,6 @@
           </div>
           
           <div v-else-if="selectedFormation" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Infos da formação -->
             <div class="space-y-6">
               <div class="bg-[#252525] rounded-xl p-6 border border-gray-700">
                 <h4 class="text-xl font-bold text-white mb-4">{{ selectedFormation.name }}</h4>
@@ -177,7 +152,6 @@
               </div>             
             </div>
             
-            <!-- Formation Field -->
             <div class="lg:col-span-2">
               <FormacaoCard
                 :formation="selectedFormation"
@@ -193,7 +167,7 @@
             </div>
             <p class="text-gray-400 text-lg mb-4">Nenhuma formação selecionada</p>
             <button class="px-6 py-3 bg-[#16A249] hover:bg-[#0f7a36] text-white font-medium rounded-xl transition-colors"
-            @click="'/formacoes'">
+                    @click="navigateTo('/formacoes')">
               Escolher Formação
             </button>
           </div>
@@ -204,63 +178,84 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue';
 import { 
   User2, 
-  Phone, 
   Mail, 
   Trophy, 
   Star, 
   Gamepad2, 
   Edit3,
-} from 'lucide-vue-next'
-import { definePageMeta, useRuntimeConfig } from '#imports';
-import LogoutButton from '~/components/perfil/LogoutButton.vue'
-import FormacaoCard from '~/components/formacoes/Campo.vue'
-import { useAuthStore } from '~/stores/auth'
+} from 'lucide-vue-next';
+import { definePageMeta, useRuntimeConfig, navigateTo } from '#imports';
+import LogoutButton from '~/components/perfil/LogoutButton.vue';
+import FormacaoCard from '~/components/formacoes/Campo.vue';
+import { useAuthStore } from '~/stores/auth';
 
 definePageMeta({
   layout: 'default',
-  // middleware: 'auth'
-})
+  middleware: 'auth'
+});
 
-const auth = useAuthStore()
+const auth = useAuthStore();
 const config = useRuntimeConfig();
-const selectedFormation = ref(null)
-const loadingFormation = ref(true)
-const profileData = ref(null)
+const selectedFormation = ref(null);
+const loadingFormation = ref(true);
+const profileData = ref(null);
 
 onMounted(async () => {
-  profileData.value = auth.user
-  await loadFormation()
-})
+  if (auth.user) {
+    profileData.value = auth.user;
+  } else {
+    await fetchUser();
+  }
+  await loadFormation();
+});
+
+const fetchUser = async () => {
+  try {
+    const data = await $fetch(`${config.public.API_URL}/api/me/`, {
+      headers: {
+        'Authorization': `Bearer ${auth.token}`
+      }
+    });
+    profileData.value = data;
+    auth.user = data;
+  } catch (e) {
+    console.error("Erro ao buscar dados do usuário", e);
+    auth.logout();
+  }
+};
 
 const loadFormation = async () => {
+  loadingFormation.value = true;
   try {
-    const response = await fetch(`${config.public.API_URL}/formacao-escolhida/`, {
+    const response = await $fetch(`${config.public.API_URL}/api/formacao-escolhida/`, {
       headers: {
         Authorization: `Bearer ${auth.token}`,
-        'Content-Type': 'application/json',
       },
-    })
-
-    if (!response.ok) throw new Error('Erro ao carregar formação')
-
-    const data = await response.json()
-    selectedFormation.value = {
-      name: data.formacao.nome,
-      positions: data.formacao.posicoes,
-      style: data.formacao.estilo || 'Equilibrada',
-      difficulty: data.formacao.dificuldade || 3,
-      description: data.formacao.descricao || 'Formação tática'
+    });
+    
+    if (response && response.formacao) {
+        selectedFormation.value = {
+        name: response.formacao.nome,
+        positions: response.formacao.posicoes,
+        style: response.formacao.estilo || 'Equilibrada',
+        difficulty: response.formacao.dificuldade || 3,
+        description: response.formacao.descricao || 'Formação tática'
+      }
+    } else {
+      selectedFormation.value = null;
     }
   } catch (err) {
-    console.error(err)
+    if (err.statusCode !== 404) {
+      console.error('Erro ao carregar formação:', err);
+    }
+    selectedFormation.value = null;
   } finally {
-    loadingFormation.value = false
+    loadingFormation.value = false;
   }
 }
-
 </script>
 
 <style scoped>
@@ -268,27 +263,7 @@ const loadFormation = async () => {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
 }
-
 .animate-float {
   animation: float 3s ease-in-out infinite;
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, #16A249, #0f7a36);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.glow {
-  box-shadow: 0 0 20px rgba(22, 162, 73, 0.3);
-}
-
-.hover-lift {
-  transition: transform 0.3s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-5px);
 }
 </style>

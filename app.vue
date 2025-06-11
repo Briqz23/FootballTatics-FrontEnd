@@ -1,16 +1,14 @@
 <template>
-  <NuxtLayout :name="layout">
-    <NuxtPage />
-  </NuxtLayout>
-  <Toaster position="top-right" />
+  <div>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+
+    <ClientOnly>
+      <Toaster rich-colors position="top-right" />
+    </ClientOnly>
+  </div>
 </template>
 
-<script setup>
-import { useRoute } from 'vue-router'
-import { computed } from 'vue'
-import { Toaster } from 'vue-sonner'
-
-const route = useRoute()
-
-const layout = computed(() => route.meta?.layout || 'default')
+<script setup lang="ts">
 </script>

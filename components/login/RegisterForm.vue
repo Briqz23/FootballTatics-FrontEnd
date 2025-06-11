@@ -221,7 +221,6 @@ const handleSubmit = async () => {
     toast.success('Cadastro realizado com sucesso!')
     emit('register-success', data)
 
-    // Limpa formulário
     Object.keys(form).forEach(key => form[key] = '')
   } catch (err) {
     error.value = err.message

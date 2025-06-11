@@ -65,9 +65,9 @@ const props = defineProps({
 })
 
 const getColorByRole = (index, y) => {
-  if (index === 0) return '#FFD700'   // Goleiro - Dourado
-  if (y < 35) return '#FF6B6B'        // Defensores - Vermelho
-  if (y < 70) return '#4ECDC4'        // Meio-campo - Verde água
-  return '#45B7D1'                    // Atacantes - Azul claro
+  if (index === 0) return '#FFD700'   
+  if (y < 35) return '#FF6B6B'      
+  if (y < 70) return '#4ECDC4'        
+  return '#45B7D1'                    
 }
 </script>
